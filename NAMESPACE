@@ -3,3 +3,4 @@
 export(add)
 export(multiply)
 export(my_glmnet)
+export(solve_ols)
