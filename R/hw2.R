@@ -148,18 +148,34 @@ algo_leverage = function(X,
   }
 }
 
-#' Title
+#' This function fits elastic net to data using coordinate descent algorithm.
 #'
-#' @param X
-#' @param Y
-#' @param lambda
-#' @param alpha
-#' @param max_it
+#' @param X The design matrix
+#' @param Y The response vector
+#' @param lambda the hyperparameter for the restriction term(s).
+#' By default it's 0.5.
+#' @param alpha #the hyperparameter of the elastic net. By default alpha = 0,
+#' which is of the form of ridge regression.
+#' @param max_it # the maximum number of iteration. By default it's 10^4
 #'
-#' @return
+#' @return # the estimates of the betas
 #' @export
 #'
-#' @examples
+#' @examples p = 20
+#' n  = 50
+#' beta_0 = rep(0, p)
+#' alpha = c(0, 0.5, 1)
+#' beta_partial = c(2, 0,-2, 0, 1, 0, -1, 0)
+#' beta = c(beta_partial, rep(0, 12))
+#' corr_mat = diag(20)
+#' corr_mat[1, 2] = 0.8
+#' corr_mat[2, 1] = 0.8
+#' corr_mat[5, 6] = 0.8
+#' corr_mat[6, 5] = 0.8
+#' eps = matrix(rnorm(n), n)
+#' X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
+#' Y = X %*% beta + eps
+#' elnet_coord(X,Y)
 elnet_coord = function(X, Y, lambda = 0.5, alpha = 0, max_it = 10^4) {
   n = nrow(X)
   p = ncol(X)
