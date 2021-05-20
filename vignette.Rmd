@@ -41,7 +41,11 @@ Then you will be able to use these three functions in this package.
 
 ## Solving Linear System by Gauss-Seidel and Jacobi, parallel allowed.
 
-`solve_ols()`: This function solves a linear system by Gauss-Seidel and Jacobi, parallel allowed for both of them. For the algorithm parameter, users can choose to use "Gauss-Seidel", "Jacobi", "parallel Gauss-Seidel", and "parallel Jacobi". By default, it's "Gauss-Seidel". Or instead, users can use numbers 1, 2, 3, and 4 respectively. This function would tell you when the algorithm doesn't converge. 
+`solve_ols()`: This function solves a linear system by Gauss-Seidel and Jacobi, parallel allowed for both of them. For the algorithm parameter, users can choose to use "Gauss-Seidel", "Jacobi", "parallel Gauss-Seidel", and "parallel Jacobi". By default, it's "Gauss-Seidel". Or instead, users can use numbers 1, 2, 3, and 4 respectively. This function would tell you when the algorithm doesn't converge. Can do `help(solve_ols)` for more information. 
+
+```{r}
+help(solve_ols)
+```
 
 ```{r}
 n = 100
@@ -82,7 +86,11 @@ head(solve_ols(X,b))
 
 ## Algorithmic Leveraging
 
-`algo_leverage`: This algorithm attempts to approximate the linear regression coefficient beta in a dataset of sample size n using only a randomly selected subset of size r much more smaller than n. Users can specify the the algorithm to be "uniform" or "leverage", and the default setting is "leverage". Or instead, users can use numbers 1 or 2, respectively. The number of the subsampling of the rows can be specified, by default it's 100. 
+`algo_leverage`: This algorithm attempts to approximate the linear regression coefficient beta in a dataset of sample size n using only a randomly selected subset of size r much more smaller than n. Users can specify the the algorithm to be "uniform" or "leverage", and the default setting is "leverage". Or instead, users can use numbers 1 or 2, respectively. The number of the subsampling of the rows can be specified, by default it's 100. Can do `help(algo_leverage)` for more information. 
+
+```{r}
+help(algo_leverage)
+```
 
 ```{r, warning=FALSE}
 set.seed(1)
@@ -103,7 +111,11 @@ algo_leverage(X,Y,1)
 
 ## Elastic Net by Coordinate Descent Algorithm
 
-`elnet_coord()`: It gives the beta estimate after fitting elastic net to data using coordinate descent algorithm. Users can specify the hyperparameter lambda and alpha of the elastic net. By default, lambda = 0.5, alpha = 0, which is a ridge regression. 
+`elnet_coord()`: It gives the beta estimate after fitting elastic net to data using coordinate descent algorithm. Users can specify the hyperparameter lambda and alpha of the elastic net. By default, lambda = 0.5, alpha = 0, which is a ridge regression. Can do `help(elnet_coord)` for more information. 
+
+```{r}
+help(elnet_coord)
+```
 
 ```{r}
 p = 20
@@ -121,19 +133,19 @@ eps = matrix(rnorm(n), n)
 X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
 Y = X %*% beta + eps
 ```
-#Ridge
+### Ridge
 
 ```{r}
 elnet_coord(X,Y)
 ```
 
-#Elastic Net with alpha = 0.5
+### Elastic Net with alpha = 0.5
 
 ```{r}
 elnet_coord(X,Y, alpha = 0.5)
 ```
 
-#LASSO 
+### LASSO 
 
 ```{r}
 elnet_coord(X,Y, alpha = 1)
