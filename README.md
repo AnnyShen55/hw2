@@ -1,5 +1,5 @@
 # hw2
-There are three function in this hw 2 package:
+There are three function in this hw2 package:
 
 olve_ols(): a function solves a linear system using Gauss-Seidel or Jacobi method,
 allows user to specify how many cores to use for parallel implementation.
