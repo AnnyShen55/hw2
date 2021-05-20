@@ -42,9 +42,9 @@ solve_ols = function(X, Y,
   D = diag(diag(X))
   #print(D)
   U = ramify::triu(X, diag = FALSE)
-  print(U)
+  #print(U)
   L = ramify::tril(X, diag = FALSE)
-  print(L)
+  #print(L)
   R_Gauss = -solve(D) %*% (L + U)
   norm_Gauss = norm(R_Gauss, type = "2")
   if(norm_Gauss >= 1){
