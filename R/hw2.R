@@ -9,11 +9,14 @@
 #' @param algorithm includes "Gauss-Seidel", "Jocobi", "parallel Gauss-Seidel",
 #' and "parallel Jacobi". Can use integers 1, 2, 3, and 4 respectively.
 #' If not specified, it would do "Gauss-Seidel".
+#' @importFrom foreach %dopar%
 #' @param ncores #the number of the cores that the user would like to use for
 #' the parallel. If not specified, it would use the number of the system processors.
 #' @param max_it #max number of iteration. Default setting is 10^4.
 #'
 #' @return the estimator vector of the parameters.
+#' It would pop up error messages when requirements for either convergence,
+#'shape of the design matrix, and algorithm name doesn't meet.
 #' @export
 #'
 #' @examples n = 100
@@ -21,20 +24,31 @@
 #' U = rbind(cbind(rep(0, n - 1), diag(rep(-1, n - 1))), rep(0, n))
 #' L = t(U)
 #' v = rep(c(1, 0), as.integer(n / 2))
+#' print(L+D+U)
 #' b = (L + D + U) %*% v
-#' solve_ols(D+U+L,b,3)
+#' X = L + D + U
+#' solve_ols(X,b)
 solve_ols = function(X, Y,
                      algorithm = "Gauss-Seidel",
-                     ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS")), max_it = 10^4) {
+                     ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^4) {
   if(nrow(X) != ncol(X)){
     stop("design matrix should be a square matrix.")
   }
 
-  #get D, U and L
-  D = diag(X)
-  U = upper.tri(X, diag = FALSE)
-  L = lower.tri(X, diag = FALSE)
 
+  n = nrow(X)
+  #get D, U and L
+  D = diag(diag(X))
+  #print(D)
+  U = ramify::triu(X, diag = FALSE)
+  print(U)
+  L = ramify::tril(X, diag = FALSE)
+  print(L)
+  R_Gauss = -solve(D) %*% (L + U)
+  norm_Gauss = norm(R_Gauss, type = "2")
+  if(norm_Gauss >= 1){
+    stop("not converge.")
+  }
   x_update = rep(0, n)
 
   if (algorithm == "Gauss-Seidel" | algorithm == 1) {
@@ -60,26 +74,48 @@ solve_ols = function(X, Y,
   }else if(algorithm == "parallel Gauss-Seidel" | algorithm == 3) {
     cl = parallel::makeCluster(ncores)
     doParallel::registerDoParallel(cl)
-    output = foreach::foreach(j = 1:max_it, .multicombine = TRUE) %foreach::dopar% {
+    output = foreach::foreach(j = 1:max_it, .multicombine = TRUE) %dopar% {
       x_update = solve(L + D) %*% (Y - U %*% x_update)
-      x_update
+
     }
     x_update = unlist(output)
+    parallel::stopCluster(cl)
   }else if(algorithm == "parallel Jacobi" | algorithm == 4) {
     cl = parallel::makeCluster(ncores)
     doParallel::registerDoParallel(cl)
-    output = foreach::foreach(j = 1:max_it, .multicombine = TRUE) %foreach::dopar% {
+    output = foreach::foreach(j = 1:max_it, .multicombine = TRUE) %dopar% {
       x_update = solve(D) %*% (Y - (L + U) %*% x_update)
-      x_update
     }
     x_update = unlist(output)
+    parallel::stopCluster(cl)
   }else{
     stop("unknown algorithm.")
   }
 
+  #print(x_update)
   return(x_update)
 }
 
+#' This function implements algorithmic leveraging for
+#' linear regression using uniform and leverage score, and the user can
+#' specific subsampling of rows.
+
+#'
+#' @param X The design matrix
+#' @param Y The response variable vector
+#' @param algorithm including "uniform" and "leverage", user can choose to
+#' use 1 and 2, respectively. Default setting is "leverage".
+#' @param subsampling_rows number of subsamples to generate. Default setting is
+#' 100.
+#'
+#' @return the beta estimators.
+#' @export
+#'
+#' @examples n = 500
+#' X = matrix(rt(n, 6),n)
+#' eps = rnorm(n)#error term
+#' Y = - X + eps
+#' algo_leverage(X,Y)
 algo_leverage = function(X,
                          Y,
                          algorithm = "leverage",
@@ -112,6 +148,18 @@ algo_leverage = function(X,
   }
 }
 
+#' Title
+#'
+#' @param X
+#' @param Y
+#' @param lambda
+#' @param alpha
+#' @param max_it
+#'
+#' @return
+#' @export
+#'
+#' @examples
 elnet_coord = function(X, Y, lambda = 0.5, alpha = 0, max_it = 10^4) {
   n = nrow(X)
   p = ncol(X)

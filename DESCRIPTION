@@ -14,4 +14,7 @@ Imports:
     glmnet(>= 4.1.0),
     doParallel,
     parallel,
-    foreach
+    foreach,
+    ramify
+
+

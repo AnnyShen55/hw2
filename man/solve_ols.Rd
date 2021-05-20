@@ -10,7 +10,7 @@ solve_ols(
   X,
   Y,
   algorithm = "Gauss-Seidel",
-  ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS")),
+  ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")),
   max_it = 10^4
 )
 }
@@ -30,6 +30,8 @@ the parallel. If not specified, it would use the number of the system processors
 }
 \value{
 the estimator vector of the parameters.
+It would pop up error messages when requirements for either convergence,
+shape of the design matrix, and algorithm name doesn't meet.
 }
 \description{
 This function solves a linear system using Gauss-Seidel or Jacobi method,
@@ -42,6 +44,8 @@ D = diag(rep(3, n))
 U = rbind(cbind(rep(0, n - 1), diag(rep(-1, n - 1))), rep(0, n))
 L = t(U)
 v = rep(c(1, 0), as.integer(n / 2))
+print(L+D+U)
 b = (L + D + U) \%*\% v
-solve_ols(D+U+L,b,3)
+X = L + D + U
+solve_ols(X,b)
 }
