@@ -33,7 +33,7 @@ solve_ols = function(X, Y,
                      ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^4) {
   if(nrow(X) != ncol(X)){
     print("design matrix should be a square matrix.")
-    exit()
+    return()
   }
 
 
@@ -49,7 +49,7 @@ solve_ols = function(X, Y,
   norm_Gauss = norm(R_Gauss, type = "2")
   if(norm_Gauss >= 1){
     print("not converge.")
-    exit()
+    return()
   }
   x_update = rep(0, n)
 

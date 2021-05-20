@@ -34,7 +34,7 @@ To download and install the package, use `devtools`: (need to download this if y
 ```{r}
 #warning=FALSE, message = FALSE
 library(devtools)
-install_github("https://github.com/AnnyShen55/hw2")
+install_github("https://github.com/AnnyShen55/hw2", force = TRUE)
 library(hw2)
 ```
 
