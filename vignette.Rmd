@@ -33,7 +33,7 @@ To download and install the package, use `devtools`: (need to download this if y
 
 ```{r}
 library(devtools)
-install_github("ys964/hw2")
+install_github("https://github.com/AnnyShen55/hw2")
 library(hw2)
 ```
 
@@ -52,8 +52,9 @@ L = t(U)
 #print(L+D+U)
  b = (L + D + U) %*% v
  X = L + D + U
-solve_ols(X,b,)
+solve_ols(X,b)
 ```
+
 
 ```{r}
 n = 100
@@ -94,7 +95,7 @@ algo_leverage(X,Y)
 ```{r}
 n = 500
 X = matrix(rt(n, 6),n)
-eps = rnorm(n)#error term
+eps = rnorm(n)
 Y = - X + eps
 algo_leverage(X,Y,1)
 ```

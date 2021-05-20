@@ -32,7 +32,8 @@ solve_ols = function(X, Y,
                      algorithm = "Gauss-Seidel",
                      ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^4) {
   if(nrow(X) != ncol(X)){
-    stop("design matrix should be a square matrix.")
+    print("design matrix should be a square matrix.")
+    exit()
   }
 
 
@@ -47,7 +48,8 @@ solve_ols = function(X, Y,
   R_Gauss = -solve(D) %*% (L + U)
   norm_Gauss = norm(R_Gauss, type = "2")
   if(norm_Gauss >= 1){
-    stop("not converge.")
+    print("not converge.")
+    exit()
   }
   x_update = rep(0, n)
 
@@ -89,7 +91,7 @@ solve_ols = function(X, Y,
     x_update = unlist(output)
     parallel::stopCluster(cl)
   }else{
-    stop("unknown algorithm.")
+    print("unknown algorithm.")
   }
 
   #print(x_update)
@@ -144,7 +146,7 @@ algo_leverage = function(X,
     beta_blev = solve(t(X) %*% w %*% X) %*% t(X) %*% w %*% Y
     return(beta_blev)
   } else{
-    stop("unknown algorithm.")
+    print("unknown algorithm.")
   }
 }
 
