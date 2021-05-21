@@ -31,11 +31,13 @@ elnet_coord(): a function fits elastic net to data using coordinate descent algo
 
 To download and install the package, use `devtools`: (need to download this if you don't have it)
 
-```{r, warning=FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, results = FALSE}
 library(devtools)
 install_github("https://github.com/AnnyShen55/hw2", force = TRUE)
 library(hw2)
 ```
+
+Also, in this package, the functions from packages `MASS`, `doParallel`, `parallel`, `foreach`, and `ramify` are used, so make sure you have had these packages installed.
 
 Then you will be able to use these three functions in this package.
 
