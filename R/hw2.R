@@ -177,10 +177,11 @@ algo_leverage = function(X,
 #' X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
 #' Y = X %*% beta + eps
 #' elnet_coord(X,Y)
-elnet_coord = function(X, Y, lambda = 0.5, alpha = 0, max_it = 10^4) {
+#' print(elnet_coord(X,Y))
+elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance = 10^(-4)) {
   n = nrow(X)
   p = ncol(X)
-
+  X = as.matrix(scale(X))
   r = rep(0, n)
   beta = rep(0,p)
   k = 1
@@ -192,19 +193,20 @@ elnet_coord = function(X, Y, lambda = 0.5, alpha = 0, max_it = 10^4) {
       }
       beta[j] = soft_thres_helper(1 / n * X[, j] %*% r, lambda, alpha)
     }
-    if (norm(beta_prev - beta, type = "2") < 10 ^ (-4)) {
+    if (norm(beta_prev - beta, type = "2") < tolerance) {
       break
     }
     k = k + 1
   }
+
   return(beta)
 }
 
 soft_thres_helper = function(z, lambda, alpha) {
-  if ((abs(z) - lambda * alpha) <= 0) {
+  if ((abs(z) - lambda * alpha) < 0) {
     return(0)
   } else{
-    return(sign(z) * (abs(z) - lambda * alpha) / (2 * lambda * (1 - alpha) + 1))
+    return(sign(z) * (abs(z) - lambda * alpha) / (lambda * (1 - alpha) + 1))
   }
 }
 

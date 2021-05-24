@@ -4,7 +4,14 @@
 \alias{elnet_coord}
 \title{This function fits elastic net to data using coordinate descent algorithm.}
 \usage{
-elnet_coord(X, Y, lambda = 0.5, alpha = 0, max_it = 10^4)
+elnet_coord(
+  X,
+  Y,
+  lambda = 0.1,
+  alpha = 0.5,
+  max_it = 10^6,
+  tolerance = 10^(-4)
+)
 }
 \arguments{
 \item{X}{The design matrix}
@@ -41,4 +48,5 @@ eps = matrix(rnorm(n), n)
 X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
 Y = X \%*\% beta + eps
 elnet_coord(X,Y)
+print(elnet_coord(X,Y))
 }

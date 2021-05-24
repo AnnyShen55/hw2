@@ -144,13 +144,13 @@ elnet_coord(X,Y)
 ### Elastic Net with alpha = 0.5
 
 ```{r}
-elnet_coord(X,Y, alpha = 0.5)
+elnet_coord(X,Y, lambda = 0.1, alpha = 0.5)
 ```
 
 ### LASSO 
 
 ```{r}
-elnet_coord(X,Y, alpha = 1)
+elnet_coord(X,Y, lambda = 0.1, alpha = 1)
 ```
 
 
