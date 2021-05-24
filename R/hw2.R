@@ -158,7 +158,8 @@ algo_leverage = function(X,
 #' @param alpha #the hyperparameter of the elastic net. By default alpha = 0,
 #' which is of the form of ridge regression.
 #' @param max_it # the maximum number of iteration. By default it's 10^4
-#'
+#' @param tolerance  # return when difference between two step of beta are
+#' smaller then this value.
 #' @return # the estimates of the betas
 #' @export
 #'
@@ -182,6 +183,7 @@ elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance
   n = nrow(X)
   p = ncol(X)
   X = as.matrix(scale(X))
+  Y = as.matrix(scale(Y))
   r = rep(0, n)
   beta = rep(0,p)
   k = 1
@@ -193,7 +195,7 @@ elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance
       }
       beta[j] = soft_thres_helper(1 / n * X[, j] %*% r, lambda, alpha)
     }
-    if (norm(beta_prev - beta, type = "2") < tolerance) {
+    if (max(abs(beta - beta_prev)) < tolerance) {
       break
     }
     k = k + 1
