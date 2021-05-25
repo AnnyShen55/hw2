@@ -31,6 +31,8 @@
 solve_ols = function(X, Y,
                      algorithm = "Gauss-Seidel",
                      ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^4) {
+  X = as.matrix(X)
+  Y = as.matrix(Y)
   if(nrow(X) != ncol(X)){
 
     return(print("Design matrix should be a square matrix."))
@@ -121,6 +123,8 @@ algo_leverage = function(X,
                          Y,
                          algorithm = "leverage",
                          subsampling_rows = 100) {
+  X = as.matrix(X)
+  Y = as.matrix(Y)
   n = nrow(X)
   if (algorithm == "uniform" | algorithm == 1) {
     uni_sample = sample(n, size = subsampling_rows, replace = TRUE)
@@ -180,9 +184,13 @@ algo_leverage = function(X,
 #' elnet_coord(X,Y)
 #' print(elnet_coord(X,Y))
 elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance = 10^(-4)) {
+  X = as.matrix(X)
+  Y = as.matrix(Y)
   n = nrow(X)
   p = ncol(X)
-
+  if (alpha > 1  | alpha < 0){
+    return(print("alpha should between 0 and 1 (inclusive)."))
+  }
   r = rep(0, n)
   beta = rep(0,p)
   k = 1
