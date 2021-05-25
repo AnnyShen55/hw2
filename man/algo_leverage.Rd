@@ -11,14 +11,14 @@ algo_leverage(X, Y, algorithm = "leverage", sub_rows = 100)
 
 \item{Y}{The response variable vector}
 
-\item{algorithm}{including "uniform" and "leverage", user can choose to
-use 1 and 2, respectively. Default setting is "leverage".}
+\item{algorithm}{Including "uniform" and "leverage", user can choose to
+use 1 and 2, respectively，for these two choices. Default setting is "leverage".}
 
-\item{sub_rows}{number of subsamples to generate. Default setting is
+\item{sub_rows}{Number of subsamples to generate. Default setting is
 100.}
 }
 \value{
-the beta estimators.
+The parameter estimators.
 }
 \description{
 This function implements algorithmic leveraging for

@@ -18,19 +18,19 @@ elnet_coord(
 
 \item{Y}{The response vector}
 
-\item{lambda}{the hyperparameter for the restriction term(s).
-By default it's 0.5.}
+\item{lambda}{The hyperparameter for the restriction term(s).
+By default it's 0.1.}
 
-\item{alpha}{#the hyperparameter of the elastic net. By default alpha = 0,
+\item{alpha}{The hyperparameter of the elastic net. By default alpha = 0,
 which is of the form of ridge regression.}
 
-\item{max_it}{# the maximum number of iteration. By default it's 10^4}
+\item{max_it}{The maximum number of iteration. By default it's 10^6.}
 
-\item{tolerance}{# return when difference between two consecutive steps of beta are
-smaller then this value.}
+\item{tolerance}{Return when difference between two consecutive steps of beta are
+smaller then this value.  By default it's 10^(-4)}
 }
 \value{
-# the estimates of the betas
+The parameter estimates
 }
 \description{
 This function fits elastic net to data using coordinate descent algorithm.

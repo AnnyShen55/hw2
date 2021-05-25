@@ -18,22 +18,24 @@ solve_ols(
 
 \item{Y}{The response variable vector}
 
-\item{algorithm}{includes "Gauss-Seidel", "Jocobi",
-and "parallel Jacobi". Can use integers 1, 2, and 3 respectively.
+\item{algorithm}{Includes "Gauss-Seidel", "Jocobi",
+and "parallel Jacobi". Can use integers 1, 2, and 3 respectively, for these
+three choices.
 If not specified, it would do "Gauss-Seidel".}
 
-\item{ncores}{#the number of the cores that the user would like to use for
+\item{ncores}{The number of the cores that the user would like to use for
 the parallel. If not specified, it would use the number of the system processors.}
 
-\item{max_it}{#max number of iteration. Default setting is 10^7.}
+\item{max_it}{Max number of iteration. Default setting is 10^7.}
 
-\item{tolerance}{# return when difference between two consecutive steps of beta are
+\item{tolerance}{Return when difference between two consecutive steps of beta are
 smaller then this value. Default setting is 10^(-4).}
 }
 \value{
-the estimator vector of the parameters.
-It would pop up error messages when requirements for either convergence,
-shape of the design matrix, and algorithm name doesn't meet.
+It returns the estimator vector of the parameters.
+It would pop up error messages when not convergence,
+shape of the design matrix and response are different,
+and unknown algorithm name.
 }
 \description{
 This function solves a linear system using Gauss-Seidel or Jacobi method,

@@ -8,18 +8,20 @@
 #'
 #' @param X The design matrix
 #' @param Y The response variable vector
-#' @param algorithm includes "Gauss-Seidel", "Jocobi",
-#' and "parallel Jacobi". Can use integers 1, 2, and 3 respectively.
+#' @param algorithm Includes "Gauss-Seidel", "Jocobi",
+#' and "parallel Jacobi". Can use integers 1, 2, and 3 respectively, for these
+#' three choices.
 #' If not specified, it would do "Gauss-Seidel".
 #' @importFrom foreach %dopar%
-#' @param ncores #the number of the cores that the user would like to use for
+#' @param ncores The number of the cores that the user would like to use for
 #' the parallel. If not specified, it would use the number of the system processors.
-#' @param max_it #max number of iteration. Default setting is 10^7.
-#' @param tolerance  # return when difference between two consecutive steps of beta are
+#' @param max_it Max number of iteration. Default setting is 10^7.
+#' @param tolerance  Return when difference between two consecutive steps of beta are
 #' smaller then this value. Default setting is 10^(-4).
-#' @return the estimator vector of the parameters.
-#' It would pop up error messages when requirements for either convergence,
-#'shape of the design matrix, and algorithm name doesn't meet.
+#' @return It returns the estimator vector of the parameters.
+#' It would pop up error messages when not convergence,
+#' shape of the design matrix and response are different,
+#' and unknown algorithm name.
 #' @export
 #'
 #' @examples n = 100
@@ -111,12 +113,12 @@ if (norm(beta_update_old - beta_update, type = "2") < tolerance) {
 #'
 #' @param X The design matrix
 #' @param Y The response variable vector
-#' @param algorithm including "uniform" and "leverage", user can choose to
-#' use 1 and 2, respectively. Default setting is "leverage".
-#' @param sub_rows number of subsamples to generate. Default setting is
+#' @param algorithm Including "uniform" and "leverage", user can choose to
+#' use 1 and 2, respectively，for these two choices. Default setting is "leverage".
+#' @param sub_rows Number of subsamples to generate. Default setting is
 #' 100.
 #'
-#' @return the beta estimators.
+#' @return The parameter estimators.
 #' @export
 #'
 #' @examples n = 500
@@ -170,14 +172,14 @@ algo_leverage = function(X,
 #'
 #' @param X The design matrix
 #' @param Y The response vector
-#' @param lambda the hyperparameter for the restriction term(s).
-#' By default it's 0.5.
-#' @param alpha #the hyperparameter of the elastic net. By default alpha = 0,
+#' @param lambda The hyperparameter for the restriction term(s).
+#' By default it's 0.1.
+#' @param alpha The hyperparameter of the elastic net. By default alpha = 0,
 #' which is of the form of ridge regression.
-#' @param max_it # the maximum number of iteration. By default it's 10^4
-#' @param tolerance  # return when difference between two consecutive steps of beta are
-#' smaller then this value.
-#' @return # the estimates of the betas
+#' @param max_it The maximum number of iteration. By default it's 10^6.
+#' @param tolerance  Return when difference between two consecutive steps of beta are
+#' smaller then this value.  By default it's 10^(-4)
+#' @return The parameter estimates
 #' @export
 #'
 #' @examples p = 20
