@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # hw2
+
 There are three function in this hw2 package:
 
 olve_ols(): a function solves a linear system using Gauss-Seidel or Jacobi method,
