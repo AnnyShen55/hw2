@@ -9,7 +9,7 @@ solve_ols(
   Y,
   algorithm = "Gauss-Seidel",
   ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")),
-  max_it = 10^6,
+  max_it = 10^7,
   tolerance = 10^(-4)
 )
 }
@@ -18,17 +18,17 @@ solve_ols(
 
 \item{Y}{The response variable vector}
 
-\item{algorithm}{includes "Gauss-Seidel", "Jocobi", "parallel Gauss-Seidel",
-and "parallel Jacobi". Can use integers 1, 2, 3, and 4 respectively.
+\item{algorithm}{includes "Gauss-Seidel", "Jocobi",
+and "parallel Jacobi". Can use integers 1, 2, and 3 respectively.
 If not specified, it would do "Gauss-Seidel".}
 
 \item{ncores}{#the number of the cores that the user would like to use for
 the parallel. If not specified, it would use the number of the system processors.}
 
-\item{max_it}{#max number of iteration. Default setting is 10^4.}
+\item{max_it}{#max number of iteration. Default setting is 10^7.}
 
 \item{tolerance}{# return when difference between two consecutive steps of beta are
-smaller then this value.}
+smaller then this value. Default setting is 10^(-4).}
 }
 \value{
 the estimator vector of the parameters.
@@ -49,5 +49,5 @@ v = rep(c(1, 0), as.integer(n / 2))
 print(L+D+U)
 b = (L + D + U) \%*\% v
 X = L + D + U
-solve_ols(X,b)
+solve_ols(X,b,3)
 }

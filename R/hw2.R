@@ -8,15 +8,15 @@
 #'
 #' @param X The design matrix
 #' @param Y The response variable vector
-#' @param algorithm includes "Gauss-Seidel", "Jocobi", "parallel Gauss-Seidel",
-#' and "parallel Jacobi". Can use integers 1, 2, 3, and 4 respectively.
+#' @param algorithm includes "Gauss-Seidel", "Jocobi",
+#' and "parallel Jacobi". Can use integers 1, 2, and 3 respectively.
 #' If not specified, it would do "Gauss-Seidel".
 #' @importFrom foreach %dopar%
 #' @param ncores #the number of the cores that the user would like to use for
 #' the parallel. If not specified, it would use the number of the system processors.
-#' @param max_it #max number of iteration. Default setting is 10^4.
+#' @param max_it #max number of iteration. Default setting is 10^7.
 #' @param tolerance  # return when difference between two consecutive steps of beta are
-#' smaller then this value.
+#' smaller then this value. Default setting is 10^(-4).
 #' @return the estimator vector of the parameters.
 #' It would pop up error messages when requirements for either convergence,
 #'shape of the design matrix, and algorithm name doesn't meet.
@@ -30,10 +30,10 @@
 #' print(L+D+U)
 #' b = (L + D + U) %*% v
 #' X = L + D + U
-#' solve_ols(X,b)
+#' solve_ols(X,b,3)
 solve_ols = function(X, Y,
                      algorithm = "Gauss-Seidel",
-                     ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^6, tolerance = 10^(-4)) {
+                     ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^7, tolerance = 10^(-4)) {
   X = as.matrix(X)
   Y = as.matrix(Y)
   if(nrow(X) != ncol(X)){
@@ -59,51 +59,47 @@ solve_ols = function(X, Y,
   if(norm_Gauss >= 1){
     return(print("Not converge."))
   }
-  x_update = rep(0, n)
+  beta_update = rep(0, n)
 
   if (algorithm == "Gauss-Seidel" | algorithm == 1) {
 
     for (j in 1:max_it) {
-      x_update_old = x_update
-      x_update = solve(L + D) %*% (Y - U %*% x_update)
+      beta_update_old = beta_update
+      beta_update = solve(L + D) %*% (Y - U %*% beta_update)
 
-      if (norm(x_update_old - x_update, type = "2") < tolerance) {
+      if (norm(beta_update_old - beta_update, type = "2") < tolerance) {
         break
       }
 
     }
   }else if(algorithm == "Jocobi" | algorithm == 2) {
     for (j in 1:max_it) {
-      x_update_old = x_update
-      x_update = solve(D) %*% (Y - (L + U) %*% x_update)
+      beta_update_old = beta_update
+      beta_update = solve(D) %*% (Y - (L + U) %*% beta_update)
 
-      if (norm(x_update_old - x_update, type = "2") < 10 ^ (-4)) {
+      if (norm(beta_update_old - beta_update, type = "2") < tolerance) {
         break
       }
     }
-  }else if(algorithm == "parallel Gauss-Seidel" | algorithm == 3) {
+  }else if(algorithm == "parallel Jacobi" | algorithm == 3) {
     cl = parallel::makeCluster(ncores)
     doParallel::registerDoParallel(cl)
-    output = foreach::foreach(j = 1:max_it, .multicombine = TRUE) %dopar% {
-      x_update = solve(L + D) %*% (Y - U %*% x_update)
-
+    for (i in 1: max_it){
+      beta_update_old = beta_update
+      beta_update = unlist(foreach::foreach(j = 1:n, .multicombine = TRUE) %dopar% {
+(Y[j] - (X[j,-j] %*%beta_update[-j]))/D[j,j]})
+if (norm(beta_update_old - beta_update, type = "2") < tolerance) {
+  break
+}
+      #print(i)
     }
-    x_update = unlist(output)
-    parallel::stopCluster(cl)
-  }else if(algorithm == "parallel Jacobi" | algorithm == 4) {
-    cl = parallel::makeCluster(ncores)
-    doParallel::registerDoParallel(cl)
-    output = foreach::foreach(j = 1:max_it, .multicombine = TRUE) %dopar% {
-      x_update = solve(D) %*% (Y - (L + U) %*% x_update)
-    }
-    x_update = unlist(output)
     parallel::stopCluster(cl)
   }else{
     print("Unknown algorithm.")
   }
 
-  #print(x_update)
-  return(x_update)
+  #print(beta_update)
+  return(beta_update)
 }
 
 #' Algorithmic Leveraging
