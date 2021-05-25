@@ -13,7 +13,7 @@ elnet_coord(): a function fits elastic net to data using coordinate descent algo
 
 ```{r}
 library(devtools)
-install_github("ys964/hw2")
+install_github("https://github.com/AnnyShen55/hw2", force = TRUE)
 library(hw2)
 ```
 
