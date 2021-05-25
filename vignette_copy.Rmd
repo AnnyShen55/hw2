@@ -1,0 +1,151 @@
+---
+title: "hw2 package"
+author: "Yixin Shen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Link to my github R package:
+
+https://github.com/AnnyShen55/hw2
+
+In this repository, it contains the html file of the vignette of mine.
+
+Below is the R code for checking Jiayun Li's work:
+
+# HW2
+Checking Jiayun Li's work:
+
+```{r, warning = FALSE, message = FALSE, results = FALSE}
+library(devtools)
+install_github("JiayinLi-3724/STSCI6520")
+library(HW2)
+```
+
+
+
+## Solving Linear System by Gauss-Seidel and Jacobi, parallel allowed.
+
+
+
+```{r}
+help(solve_ols)
+```
+
+```{r}
+n = 100
+D = diag(rep(1, n))
+U = rbind(cbind(rep(0, n - 1), diag(rep(-1, n - 1))), rep(0, n))
+L = t(U)
+ v = rep(c(1, 0), as.integer(n / 2))
+#print(L+D+U)
+ b = (L + D + U) %*% v
+ X = L + D + U
+solve_ols(X,b)
+```
+
+
+```{r}
+n = 100
+D = diag(rep(2, n))
+U = rbind(cbind(rep(0, n - 1), diag(rep(-1, n - 1))), rep(0, n))
+L = t(U)
+ v = rep(c(1, 0), as.integer(n / 2))
+#print(L+D+U)
+ b = (L + D + U) %*% v
+ X = L + D + U
+head(solve_ols(X,b))
+```
+
+```{r}
+n = 100
+D = diag(rep(3, n))
+U = rbind(cbind(rep(0, n - 1), diag(rep(-1, n - 1))), rep(0, n))
+L = t(U)
+ v = rep(c(1, 0), as.integer(n / 2))
+#print(L+D+U)
+ b = (L + D + U) %*% v
+ X = L + D + U
+head(solve_ols(X,b))
+```
+
+## Algorithmic Leveraging
+
+`algo_leverage`: This algorithm attempts to approximate the linear regression coefficient beta in a dataset of sample size n using only a randomly selected subset of size r much more smaller than n. Users can specify the the algorithm to be "uniform" or "leverage", and the default setting is "leverage". Or instead, users can use numbers 1 or 2, respectively. The number of the subsampling of the rows can be specified, by default it's 100. Can do `help(algo_leverage)` for more information. 
+
+```{r}
+help(algo_leverage)
+```
+
+## Leverage
+```{r, warning=FALSE}
+set.seed(1)
+n = 500
+X = matrix(rt(n, 6),n)
+eps = rnorm(n)#error term
+Y = - X + eps
+algo_leverage(X,Y)
+```
+
+## Uniform
+```{r}
+algo_leverage(X,Y,1)
+```
+
+
+## Elastic Net by Coordinate Descent Algorithm
+
+`elnet_coord()`: It gives the beta estimate after fitting elastic net to data using coordinate descent algorithm. Users can specify the hyperparameter lambda and alpha of the elastic net. By default, lambda = 0.1, alpha = 0, which is a ridge regression. Can do `help(elnet_coord)` for more information. 
+
+```{r}
+help(elnet_coord)
+```
+
+```{r}
+p = 20
+ n  = 50
+beta_0 = rep(0, p)
+alpha = c(0, 0.5, 1)
+beta_partial = c(2, 0,-2, 0, 1, 0, -1, 0)
+beta = c(beta_partial, rep(0, 12))
+corr_mat = diag(20)
+corr_mat[1, 2] = 0.8
+corr_mat[2, 1] = 0.8
+corr_mat[5, 6] = 0.8
+corr_mat[6, 5] = 0.8
+eps = matrix(rnorm(n), n)
+X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
+Y = X %*% beta + eps
+```
+### Ridge
+
+```{r}
+elnet_coord(X,Y)
+```
+
+### Elastic Net with alpha = 0.5
+
+```{r}
+elnet_coord(X,Y, alpha = 0.5)
+```
+
+### LASSO 
+
+```{r}
+elnet_coord(X,Y, alpha = 1)
+```
+
+
+
+

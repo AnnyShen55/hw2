@@ -2,11 +2,9 @@
 % Please edit documentation in R/hw2.R
 \name{algo_leverage}
 \alias{algo_leverage}
-\title{This function implements algorithmic leveraging for
-linear regression using uniform and leverage score, and the user can
-specific subsampling of rows.}
+\title{Algorithmic Leveraging}
 \usage{
-algo_leverage(X, Y, algorithm = "leverage", subsampling_rows = 100)
+algo_leverage(X, Y, algorithm = "leverage", sub_rows = 100)
 }
 \arguments{
 \item{X}{The design matrix}
@@ -16,7 +14,7 @@ algo_leverage(X, Y, algorithm = "leverage", subsampling_rows = 100)
 \item{algorithm}{including "uniform" and "leverage", user can choose to
 use 1 and 2, respectively. Default setting is "leverage".}
 
-\item{subsampling_rows}{number of subsamples to generate. Default setting is
+\item{sub_rows}{number of subsamples to generate. Default setting is
 100.}
 }
 \value{

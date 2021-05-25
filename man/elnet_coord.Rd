@@ -2,7 +2,7 @@
 % Please edit documentation in R/hw2.R
 \name{elnet_coord}
 \alias{elnet_coord}
-\title{This function fits elastic net to data using coordinate descent algorithm.}
+\title{Elastic Net by Coordinate Descent Algorithm}
 \usage{
 elnet_coord(
   X,

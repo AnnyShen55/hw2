@@ -2,9 +2,7 @@
 % Please edit documentation in R/hw2.R
 \name{solve_ols}
 \alias{solve_ols}
-\title{This function solves a linear system using Gauss-Seidel or Jacobi method,
-if choose to do parallel, it allows user to specify how many
-cores to use for parallel implementation.}
+\title{Solving Linear System by Gauss-Seidel and Jacobi}
 \usage{
 solve_ols(
   X,
