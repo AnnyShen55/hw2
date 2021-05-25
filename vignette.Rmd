@@ -98,7 +98,7 @@ help(algo_leverage)
 ```{r, warning=FALSE}
 set.seed(1)
 n = 500
-X = matrix(rt(n, 6),n)
+X = matrix(rt(n, 8),n)
 eps = rnorm(n)#error term
 Y = - X + eps
 algo_leverage(X,Y)

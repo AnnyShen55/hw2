@@ -12,7 +12,7 @@
 
 <meta name="author" content="Yixin Shen" />
 
-<meta name="date" content="2021-05-24" />
+<meta name="date" content="2021-05-25" />
 
 <title>hw2 package</title>
 
@@ -303,7 +303,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">hw2 package</h1>
 <h4 class="author">Yixin Shen</h4>
-<h4 class="date">2021-05-24</h4>
+<h4 class="date">2021-05-25</h4>
 
 
 
@@ -378,18 +378,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Leverage</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">n =<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">X =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rt</span>(n, <span class="dv">6</span>),n)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">X =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rt</span>(n, <span class="dv">8</span>),n)</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4">eps =<span class="st"> </span><span class="kw">rnorm</span>(n)<span class="co">#error term</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">Y =<span class="st"> </span><span class="op">-</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>eps</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">algo_leverage</span>(X,Y)</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;          [,1]</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; [1,] -1.05442</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;           [,1]</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; [1,] -1.003614</span></a></code></pre></div>
 </div>
 <div id="uniform" class="section level2">
 <h2>Uniform</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">algo_leverage</span>(X,Y,<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;            [,1]</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; [1,] -0.9647968</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt;           [,1]</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; [1,] -1.071021</span></a></code></pre></div>
 </div>
 <div id="elastic-net-by-coordinate-descent-algorithm" class="section level2">
 <h2>Elastic Net by Coordinate Descent Algorithm</h2>
@@ -412,26 +412,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="ridge" class="section level3">
 <h3>Ridge</h3>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">elnet_coord</span>(X,Y)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;  [1]  1.70503962  0.40620484 -1.66685354  0.00000000  0.52492107  0.21007602</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  [7] -0.88745107 -0.14239081 -0.14370347 -0.03256067  0.13525832  0.00000000</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; [13]  0.38272205  0.04929750  0.13794822  0.00000000 -0.18627180  0.15666177</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; [19]  0.19901693 -0.32640743</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;  [1]  1.40258552  0.23404075 -1.74725792  0.26198083  0.63689211  0.21901364</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  [7] -0.88031869  0.16092892 -0.06182305  0.00000000 -0.05863462 -0.13299063</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; [13] -0.20274527 -0.13805485  0.03847234  0.00000000  0.08998254 -0.07572176</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; [19] -0.23310230 -0.01184258</span></a></code></pre></div>
 </div>
 <div id="elastic-net-with-alpha-0.5" class="section level3">
 <h3>Elastic Net with alpha = 0.5</h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">elnet_coord</span>(X,Y, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1]  1.70503962  0.40620484 -1.66685354  0.00000000  0.52492107  0.21007602</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;  [7] -0.88745107 -0.14239081 -0.14370347 -0.03256067  0.13525832  0.00000000</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [13]  0.38272205  0.04929750  0.13794822  0.00000000 -0.18627180  0.15666177</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; [19]  0.19901693 -0.32640743</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1]  1.40258552  0.23404075 -1.74725792  0.26198083  0.63689211  0.21901364</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;  [7] -0.88031869  0.16092892 -0.06182305  0.00000000 -0.05863462 -0.13299063</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [13] -0.20274527 -0.13805485  0.03847234  0.00000000  0.08998254 -0.07572176</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; [19] -0.23310230 -0.01184258</span></a></code></pre></div>
 </div>
 <div id="lasso" class="section level3">
 <h3>LASSO</h3>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">elnet_coord</span>(X,Y, <span class="dt">alpha =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt;  [1]  1.816384649  0.305236742 -1.756024292  0.000000000  0.600021808</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;  [6]  0.165482568 -0.879840766 -0.070792353 -0.063317033  0.000000000</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; [11]  0.005992254  0.000000000  0.291790911  0.026258948  0.035911566</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; [16]  0.000000000 -0.204312396  0.103877932  0.152557317 -0.260065693</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt;  [1]  1.65904703  0.01508960 -1.80261755  0.18631674  0.73570517  0.09336618</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;  [7] -0.88047841  0.08355309 -0.01833988  0.00000000 -0.01260951 -0.06611974</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; [13] -0.11275943  0.00000000  0.00000000  0.00000000  0.08398429  0.00000000</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; [19] -0.14256398  0.00000000</span></a></code></pre></div>
 </div>
 </div>
 </div>
