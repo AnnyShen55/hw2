@@ -318,7 +318,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>To download and install the package, use <code>devtools</code>: (need to download this if you don’t have it)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">install_github</span>(<span class="st">&quot;https://github.com/AnnyShen55/hw2&quot;</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(hw2)</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(hw2)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(doParallel)</a></code></pre></div>
 <p>Also, in this package, the functions from packages <code>MASS</code>, <code>doParallel</code>, <code>parallel</code>, <code>foreach</code>, and <code>ramify</code> are used, so make sure you have had these packages installed.</p>
 <p>Then you will be able to use these three functions in this package.</p>
 </div>
@@ -343,15 +344,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb4-5" data-line-number="5"> v =<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="kw">as.integer</span>(n <span class="op">/</span><span class="st"> </span><span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#print(L+D+U)</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"> b =<span class="st"> </span>(L <span class="op">+</span><span class="st"> </span>D <span class="op">+</span><span class="st"> </span>U) <span class="op">%*%</span><span class="st"> </span>v</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"> X =<span class="st"> </span>L <span class="op">+</span><span class="st"> </span>D <span class="op">+</span><span class="st"> </span>U</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw">head</span>(<span class="kw">solve_ols</span>(X,b))</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;               [,1]</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; [1,]  0.9995370747</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; [2,] -0.0009249552</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; [3,]  0.9986143565</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [4,] -0.0018445461</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; [5,]  0.9976987792</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; [6,] -0.0027552281</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-8" data-line-number="8"> <span class="co">#as.matrix(b)</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"> X =<span class="st"> </span>L <span class="op">+</span><span class="st"> </span>D <span class="op">+</span><span class="st"> </span>U</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">head</span>(<span class="kw">solve_ols</span>(X,b))</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt;               [,1]</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; [1,]  0.9995370747</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; [2,] -0.0009249552</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; [3,]  0.9986143565</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; [4,] -0.0018445461</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; [5,]  0.9976987792</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; [6,] -0.0027552281</span></a></code></pre></div>
+</div>
+<div id="check-the-jacobi-parallel" class="section level2">
+<h2>Check the Jacobi parallel</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">n =<span class="st"> </span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">D =<span class="st"> </span><span class="kw">diag</span>(<span class="kw">rep</span>(<span class="dv">3</span>, n))</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">U =<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">cbind</span>(<span class="kw">rep</span>(<span class="dv">0</span>, n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), <span class="kw">diag</span>(<span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))), <span class="kw">rep</span>(<span class="dv">0</span>, n))</a>
@@ -360,14 +365,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#print(L+D+U)</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"> b =<span class="st"> </span>(L <span class="op">+</span><span class="st"> </span>D <span class="op">+</span><span class="st"> </span>U) <span class="op">%*%</span><span class="st"> </span>v</a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"> X =<span class="st"> </span>L <span class="op">+</span><span class="st"> </span>D <span class="op">+</span><span class="st"> </span>U</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw">head</span>(<span class="kw">solve_ols</span>(X,b))</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;               [,1]</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [1,]  9.999962e-01</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [2,] -5.743520e-06</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [3,]  9.999933e-01</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; [4,] -7.168229e-06</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; [5,]  9.999926e-01</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; [6,] -7.518167e-06</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw">head</span>(<span class="kw">solve_ols</span>(X,b,<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; [1]  1.000000e+00 -2.260187e-06  1.000000e+00 -4.237852e-06  1.000000e+00</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [6] -5.750183e-06</span></a></code></pre></div>
 </div>
 <div id="algorithmic-leveraging" class="section level2">
 <h2>Algorithmic Leveraging</h2>
