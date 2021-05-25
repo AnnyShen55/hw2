@@ -176,26 +176,25 @@ algo_leverage = function(X,
 #' corr_mat[6, 5] = 0.8
 #' eps = matrix(rnorm(n), n)
 #' X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
-#' Y = X %*% beta + eps
+#' Y = X[,] %*% beta + eps
 #' elnet_coord(X,Y)
 #' print(elnet_coord(X,Y))
 elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance = 10^(-4)) {
   n = nrow(X)
   p = ncol(X)
-  X = as.matrix(scale(X))
-  Y = as.matrix(scale(Y))
+
   r = rep(0, n)
   beta = rep(0,p)
   k = 1
   while (k <= max_it) {
     beta_prev = beta
     for (j in 1:p) {
-      for (i in 1:n) {
-        r[j] = Y[i] - X[i, -j] %*% beta[-j]
-      }
-      beta[j] = soft_thres_helper(1 / n * X[, j] %*% r, lambda, alpha)
+
+      r = Y - X[, -j] %*% beta[-j]
+      z = mean(X[, j] * r)
+      beta[j] = soft_thres_helper(z, lambda, alpha, X[, j])
     }
-    if (max(abs(beta - beta_prev)) < tolerance) {
+    if (norm(beta-beta_prev,'2') < tolerance) {
       break
     }
     k = k + 1
@@ -204,11 +203,11 @@ elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance
   return(beta)
 }
 
-soft_thres_helper = function(z, lambda, alpha) {
+soft_thres_helper = function(z, lambda, alpha, x_col) {
   if ((abs(z) - lambda * alpha) < 0) {
     return(0)
   } else{
-    return(sign(z) * (abs(z) - lambda * alpha) / (lambda * (1 - alpha) + 1))
+    return(sign(z) * (abs(z) - lambda * alpha) / (lambda * (1 - alpha) + mean(x_col^2)))
   }
 }
 

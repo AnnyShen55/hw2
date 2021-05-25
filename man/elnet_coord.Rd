@@ -25,6 +25,9 @@ By default it's 0.5.}
 which is of the form of ridge regression.}
 
 \item{max_it}{# the maximum number of iteration. By default it's 10^4}
+
+\item{tolerance}{# return when difference between two step of beta are
+smaller then this value.}
 }
 \value{
 # the estimates of the betas
@@ -46,7 +49,7 @@ corr_mat[5, 6] = 0.8
 corr_mat[6, 5] = 0.8
 eps = matrix(rnorm(n), n)
 X = MASS::mvrnorm(n, rep(0, p), Sigma = corr_mat)
-Y = X \%*\% beta + eps
+Y = X[,] \%*\% beta + eps
 elnet_coord(X,Y)
 print(elnet_coord(X,Y))
 }
