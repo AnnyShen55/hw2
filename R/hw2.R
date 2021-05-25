@@ -41,6 +41,10 @@ solve_ols = function(X, Y,
     return(print("Design matrix should be a square matrix."))
   }
 
+  if (nrow(X) != nrow(Y) && nrow(X) != ncol(Y)){
+    return(print("The dimensions of the two inputs don't match."))
+  }
+
 
   n = nrow(X)
   #get D, U and L
@@ -131,6 +135,12 @@ algo_leverage = function(X,
   X = as.matrix(X)
   Y = as.matrix(Y)
   n = nrow(X)
+  if (sub_rows <= 0){
+    return(print("sub_row should be a positive number."))
+  }
+  if (nrow(X) != nrow(Y) && nrow(X) != ncol(Y)){
+    return(print("The dimensions of the two inputs don't match."))
+  }
   if (algorithm == "uniform" | algorithm == 1) {
     uni_sample = sample(n, size = sub_rows, replace = TRUE)
     X_unif = X[uni_sample,]
@@ -195,6 +205,9 @@ elnet_coord = function(X, Y, lambda = 0.1, alpha = 0.5, max_it = 10^6, tolerance
   Y = as.matrix(Y)
   n = nrow(X)
   p = ncol(X)
+  if (nrow(X) != nrow(Y) && nrow(X) != ncol(Y)){
+    return(print("The dimensions of the two inputs don't match."))
+  }
   if (alpha > 1  | alpha < 0){
     return(print("alpha should between 0 and 1 (inclusive)."))
   }
