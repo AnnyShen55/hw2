@@ -1,5 +1,7 @@
 
 
+#' Solving Linear System by Gauss-Seidel and Jacobi
+#'
 #' This function solves a linear system using Gauss-Seidel or Jacobi method,
 #' if choose to do parallel, it allows user to specify how many
 #' cores to use for parallel implementation.
@@ -100,6 +102,8 @@ solve_ols = function(X, Y,
   return(x_update)
 }
 
+#' Algorithmic Leveraging
+#'
 #' This function implements algorithmic leveraging for
 #' linear regression using uniform and leverage score, and the user can
 #' specific subsampling of rows.
@@ -154,6 +158,8 @@ algo_leverage = function(X,
   }
 }
 
+#' Elastic Net by Coordinate Descent Algorithm
+#'
 #' This function fits elastic net to data using coordinate descent algorithm.
 #'
 #' @param X The design matrix
