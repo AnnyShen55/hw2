@@ -136,7 +136,7 @@ algo_leverage = function(X,
   }else if(algorithm == "leverage" | algorithm == 2) {
     pi_lev_full_unnorm = apply(X, 1, function(x)
       x %*% solve(t(X) %*% X) %*% x)
-    pi_lev_full = pi_lev_full_unnorm / sqrt(pi_lev_full_unnorm %*% pi_lev_full_unnorm)
+    pi_lev_full = pi_lev_full_unnorm / as.vector(sqrt(pi_lev_full_unnorm %*% pi_lev_full_unnorm))
     lev_sample = sample(n,
                         size = subsampling_rows,
                         replace = TRUE,
