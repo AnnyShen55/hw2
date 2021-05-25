@@ -94,6 +94,7 @@ head(solve_ols(X,b))
 help(algo_leverage)
 ```
 
+## Leverage
 ```{r, warning=FALSE}
 set.seed(1)
 n = 500
@@ -103,11 +104,8 @@ Y = - X + eps
 algo_leverage(X,Y)
 ```
 
+## Uniform
 ```{r}
-n = 500
-X = matrix(rt(n, 6),n)
-eps = rnorm(n)
-Y = - X + eps
 algo_leverage(X,Y,1)
 ```
 

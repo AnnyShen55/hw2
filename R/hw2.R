@@ -109,7 +109,7 @@ solve_ols = function(X, Y,
 #' @param Y The response variable vector
 #' @param algorithm including "uniform" and "leverage", user can choose to
 #' use 1 and 2, respectively. Default setting is "leverage".
-#' @param subsampling_rows number of subsamples to generate. Default setting is
+#' @param sub_rows number of subsamples to generate. Default setting is
 #' 100.
 #'
 #' @return the beta estimators.
@@ -123,12 +123,12 @@ solve_ols = function(X, Y,
 algo_leverage = function(X,
                          Y,
                          algorithm = "leverage",
-                         subsampling_rows = 100) {
+                         sub_rows = 100) {
   X = as.matrix(X)
   Y = as.matrix(Y)
   n = nrow(X)
   if (algorithm == "uniform" | algorithm == 1) {
-    uni_sample = sample(n, size = subsampling_rows, replace = TRUE)
+    uni_sample = sample(n, size = sub_rows, replace = TRUE)
     X_unif = X[uni_sample,]
     Y_unif = Y[uni_sample,]
     beta_unif = solve(t(X_unif) %*% X_unif) %*% t(X_unif) %*% Y_unif
@@ -138,14 +138,14 @@ algo_leverage = function(X,
       x %*% solve(t(X) %*% X) %*% x)
     pi_lev_full = pi_lev_full_unnorm / as.vector(sqrt(pi_lev_full_unnorm %*% pi_lev_full_unnorm))
     lev_sample = sample(n,
-                        size = subsampling_rows,
+                        size = sub_rows,
                         replace = TRUE,
                         prob = pi_lev_full)
     X_lev = X[lev_sample, , drop = F]
     Y_lev = Y[lev_sample,]
     cnt_element = sapply(1:n, function(x)
       sum(lev_sample == x))
-    w_part = cnt_element / subsampling_rows * pi_lev_full
+    w_part = cnt_element / sub_rows * pi_lev_full
     w = diag(w_part)
     beta_blev = solve(t(X) %*% w %*% X) %*% t(X) %*% w %*% Y
     return(beta_blev)
