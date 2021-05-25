@@ -13,7 +13,8 @@
 #' @param ncores #the number of the cores that the user would like to use for
 #' the parallel. If not specified, it would use the number of the system processors.
 #' @param max_it #max number of iteration. Default setting is 10^4.
-#'
+#' @param tolerance  # return when difference between two consecutive steps of beta are
+#' smaller then this value.
 #' @return the estimator vector of the parameters.
 #' It would pop up error messages when requirements for either convergence,
 #'shape of the design matrix, and algorithm name doesn't meet.
@@ -30,7 +31,7 @@
 #' solve_ols(X,b)
 solve_ols = function(X, Y,
                      algorithm = "Gauss-Seidel",
-                     ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^4) {
+                     ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")), max_it = 10^6, tolerance = 10^(-4)) {
   X = as.matrix(X)
   Y = as.matrix(Y)
   if(nrow(X) != ncol(X)){
@@ -60,7 +61,7 @@ solve_ols = function(X, Y,
       x_update_old = x_update
       x_update = solve(L + D) %*% (Y - U %*% x_update)
 
-      if (norm(x_update_old - x_update, type = "2") < 10 ^ (-4)) {
+      if (norm(x_update_old - x_update, type = "2") < tolerance) {
         break
       }
 
@@ -162,7 +163,7 @@ algo_leverage = function(X,
 #' @param alpha #the hyperparameter of the elastic net. By default alpha = 0,
 #' which is of the form of ridge regression.
 #' @param max_it # the maximum number of iteration. By default it's 10^4
-#' @param tolerance  # return when difference between two step of beta are
+#' @param tolerance  # return when difference between two consecutive steps of beta are
 #' smaller then this value.
 #' @return # the estimates of the betas
 #' @export

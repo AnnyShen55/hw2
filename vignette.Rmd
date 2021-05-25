@@ -111,13 +111,6 @@ Y = - X + eps
 algo_leverage(X,Y,1)
 ```
 
-```{r}
-set.seed(100)
-x = rnorm(600)/rchisq(600,6)
-nrow(x)
-y = -x + rnorm(600)
-algo_leverage(x,y,1)
-```
 
 ## Elastic Net by Coordinate Descent Algorithm
 

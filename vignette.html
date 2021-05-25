@@ -12,7 +12,7 @@
 
 <meta name="author" content="Yixin Shen" />
 
-<meta name="date" content="2021-05-21" />
+<meta name="date" content="2021-05-24" />
 
 <title>hw2 package</title>
 
@@ -303,7 +303,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">hw2 package</h1>
 <h4 class="author">Yixin Shen</h4>
-<h4 class="date">2021-05-21</h4>
+<h4 class="date">2021-05-24</h4>
 
 
 
@@ -391,7 +391,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="elastic-net-by-coordinate-descent-algorithm" class="section level2">
 <h2>Elastic Net by Coordinate Descent Algorithm</h2>
-<p><code>elnet_coord()</code>: It gives the beta estimate after fitting elastic net to data using coordinate descent algorithm. Users can specify the hyperparameter lambda and alpha of the elastic net. By default, lambda = 0.5, alpha = 0, which is a ridge regression. Can do <code>help(elnet_coord)</code> for more information.</p>
+<p><code>elnet_coord()</code>: It gives the beta estimate after fitting elastic net to data using coordinate descent algorithm. Users can specify the hyperparameter lambda and alpha of the elastic net. By default, lambda = 0.1, alpha = 0, which is a ridge regression. Can do <code>help(elnet_coord)</code> for more information.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">help</span>(elnet_coord)</a></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">p =<span class="st"> </span><span class="dv">20</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"> n  =<span class="st"> </span><span class="dv">50</span></a>
@@ -410,23 +410,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="ridge" class="section level3">
 <h3>Ridge</h3>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">elnet_coord</span>(X,Y)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;  [1] -0.016217479 -0.092288278 -0.017347601 -0.194467080 -0.010887343</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  [6]  0.001208575  0.132196171 -0.094657907  0.017130315 -0.053851953</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; [11]  0.057584663  0.248116309 -0.212133416 -0.084560072  0.104469990</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; [16]  0.029679142  0.024729734  0.028868541  0.151289771  0.104152607</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;  [1]  1.34832492  0.20330650 -1.76209370  0.16314391  0.59116692  0.02706841</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  [7] -0.70613040 -0.06864596  0.00000000 -0.18403126  0.11642853  0.00000000</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; [13] -0.07248195 -0.01103042  0.24893231  0.00000000  0.07747057  0.09945373</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; [19]  0.12342194 -0.04584861</span></a></code></pre></div>
 </div>
 <div id="elastic-net-with-alpha-0.5" class="section level3">
 <h3>Elastic Net with alpha = 0.5</h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">elnet_coord</span>(X,Y, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1]  0.00000000  0.00000000  0.00000000 -0.06322054  0.00000000  0.00000000</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;  [7]  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.13367565</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [13] -0.09117727  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; [19]  0.01430707  0.00000000</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1]  1.34832492  0.20330650 -1.76209370  0.16314391  0.59116692  0.02706841</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;  [7] -0.70613040 -0.06864596  0.00000000 -0.18403126  0.11642853  0.00000000</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [13] -0.07248195 -0.01103042  0.24893231  0.00000000  0.07747057  0.09945373</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; [19]  0.12342194 -0.04584861</span></a></code></pre></div>
 </div>
 <div id="lasso" class="section level3">
 <h3>LASSO</h3>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">elnet_coord</span>(X,Y, <span class="dt">alpha =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt;  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt;  [1]  1.59747156  0.01078547 -1.80464210  0.11365704  0.61499591  0.00000000</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;  [7] -0.68189716 -0.01950543  0.00000000 -0.17438459  0.01440114  0.00000000</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; [13] -0.09568772  0.00000000  0.20002545  0.00000000  0.03265189  0.04456414</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; [19]  0.04444624  0.00000000</span></a></code></pre></div>
 </div>
 </div>
 </div>

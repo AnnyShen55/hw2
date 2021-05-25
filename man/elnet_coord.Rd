@@ -26,7 +26,7 @@ which is of the form of ridge regression.}
 
 \item{max_it}{# the maximum number of iteration. By default it's 10^4}
 
-\item{tolerance}{# return when difference between two step of beta are
+\item{tolerance}{# return when difference between two consecutive steps of beta are
 smaller then this value.}
 }
 \value{

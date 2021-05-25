@@ -11,7 +11,8 @@ solve_ols(
   Y,
   algorithm = "Gauss-Seidel",
   ncores = as.numeric(Sys.getenv("NUMBER_OF_PROCESSORS", "2")),
-  max_it = 10^4
+  max_it = 10^6,
+  tolerance = 10^(-4)
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ If not specified, it would do "Gauss-Seidel".}
 the parallel. If not specified, it would use the number of the system processors.}
 
 \item{max_it}{#max number of iteration. Default setting is 10^4.}
+
+\item{tolerance}{# return when difference between two consecutive steps of beta are
+smaller then this value.}
 }
 \value{
 the estimator vector of the parameters.
